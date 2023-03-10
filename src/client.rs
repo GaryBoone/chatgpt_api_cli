@@ -2,7 +2,7 @@ use crate::api;
 use anyhow::{anyhow, Context, Result};
 use log::info;
 
-const MODEL: &str = "gpt-3.5-turbo";
+pub const MODEL: &str = "gpt-3.5-turbo";
 const URL: &str = "https://api.openai.com/v1/chat/completions";
 
 // Define a client that handles the HTTP requests and responses to and from the OpenAI API.

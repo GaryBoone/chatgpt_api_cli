@@ -89,7 +89,7 @@ fn main() -> Result<()> {
         }
 
         // Send the message to the API and print the response.
-        println!("  [Sending chat to gpt-3.5-turbo...]");
+        println!("  [Sending chat to {}...]", client::MODEL);
         let (text, tokens) = chat_bot.chat(input_line)?;
         println!(
             "GPT [{} tokens used for this context and prompt]: {}",

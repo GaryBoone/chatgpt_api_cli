@@ -49,6 +49,14 @@ This demo:
    $ RUST_LOG=debug cargo run
    ```
 
+   Or build and run the binary directly:
+
+   ```shell
+   $ cargo build
+   $ ./target/debug/chatgpt_api_cli
+
+   ```
+
 2. Enter text at the '>' prompt.
 
 - The complete chat history is sent to the API for context and the API's response is printed.
