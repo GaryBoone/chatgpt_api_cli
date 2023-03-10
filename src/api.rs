@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+// https://platform.openai.com/docs/api-reference/completions/create
+
 #[derive(Debug, Deserialize)]
 pub struct Choice {
     // The index number of the choice in the list of choices.
