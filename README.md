@@ -64,7 +64,8 @@ This demo:
 
 ### Example
 
-```shell
+```
+$ cargo run
 > Enter text. Enter `c` to clear the chat history and `q` to exit.
 > What's pi in decimal for a 64bit IEEE754 representation?
   [Sending chat to gpt-3.5-turbo...]
@@ -73,13 +74,19 @@ GPT [64 tokens used for this context and prompt]:
 Pi in decimal for a 64-bit IEEE754 representation is approximately:
 
 3.1415926535897932384626433832795028841971693993751058209749445923078164062
-> That seems like more precision than is available in a 64bit floating point representation...
+> That seems like more precision than is available in a 64bit floating point
+representation...
   [Sending chat to gpt-3.5-turbo...]
-GPT [186 tokens used for this context and prompt]: You are correct, apologies for the error in my previous response. A 64-bit IEEE754 representation can store up to 15 to 17 decimal digits of precision. The exact value of pi cannot be represented in a 64-bit floating point number, but it can be approximated to 16 decimal places as:
+GPT [186 tokens used for this context and prompt]: You are correct, apologies
+for the error in my previous response. A 64-bit IEEE754 representation can store
+up to 15 to 17 decimal digits of precision. The exact value of pi cannot be
+represented in a 64-bit floating point number, but it can be approximated to 16
+decimal places as:
 
 3.141592653589793
 
-Please note that the last digit might be rounded off or inaccurate due to the limitations of the floating-point representation.
+Please note that the last digit might be rounded off or inaccurate due to the
+limitations of the floating-point representation.
 >
 ```
 
