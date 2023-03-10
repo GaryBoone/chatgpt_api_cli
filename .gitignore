@@ -1,0 +1,4 @@
+/.vscode
+/target
+open_ai_auth_key.txt
+Cargo.lock
