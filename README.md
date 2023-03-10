@@ -1,6 +1,6 @@
 # chatgpt_api_cli
 
-Following `OpenAI`'s March 1, 2023 announcement of an official ChatGPT API, here's Rust code to exercise it.
+Following `OpenAI`'s March 1, 2023 [announcement](https://openai.com/blog/introducing-chatgpt-and-whisper-apis) of an official ChatGPT API, here's Rust code to exercise it.
 
 This project is a chatbot that uses `OpenAI`'s chat completions API and the new
 `gpt-3.5-turbo` model to generate AI responses to user input. The chat history is sent to the API
