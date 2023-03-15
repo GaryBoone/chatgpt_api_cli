@@ -46,12 +46,18 @@ impl ChatBot {
         }
     }
 
-    // Add the user's text to the chat history and send the whole history to the API so that it can
-    // respond within the context of the conversation. Return the model's response text and the
-    // number of tokens used.
+    // Add the user's text to the chat history and send it to the API. On success, return the
+    // model's response text and the number of tokens used.
     pub fn chat(&mut self, text: &str) -> Result<(String, u32)> {
         self.chat.add_user_text(text);
+        self.send()
+    }
 
+    // Send the whole history to the API so that it can respond within the context of the
+    // conversation. If a response is received, add it to the chat history. Else the chat history is
+    // not updated so the response and can be resent. On success, return the model's response text
+    // and the number of tokens used.
+    pub fn send(&mut self) -> Result<(String, u32)> {
         let (gpt_message, tokens) = self.client.send(&self.chat.messages)?;
 
         self.chat.add_message(gpt_message.clone());
