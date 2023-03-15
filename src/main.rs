@@ -16,27 +16,30 @@ mod client;
 // 1. Obtain an OpenAI API key from https://beta.openai.com/account/api-keys
 // 2. Either:
 //    - Set the environment variable OPENAI_API_KEY to the API key.
-//    $ export OPENAI_API_KEY=<key>
+//        $ export OPENAI_API_KEY=<key>
 //    OR:
-//    - Create a file named `open_ai_auth_key.txt` in the project directory and put the API key in it.
+//    - Create a file named `open_ai_auth_key.txt` in the project directory and put the API key in
+//      it.
 // Run:
 // 3. $ cargo run
 //    Or to see full API requests and responses:
-//    $ RUST_LOG=debug cargo run
-// 4. Enter text. The complete chat history is sent to the API for context and the API's response is printed.
-//    Enter `c` to clear the chat history and `q` to exit.
+//        $ RUST_LOG=debug cargo run
+// 4. Enter text. The complete chat history is sent to the API for context and the API's response is
+//    printed.
+//    Enter `r` to resend the current chat, `c` to clear the chat history, and `q` to exit.
 
 // The environment variable that contains the OpenAI API key. Use this or the file below.
-// This environment variable will be checked first. If not defined, the code will read the file below.
+// This environment variable will be checked first. If not defined, the code will read the file
+// below.
 const OPENAI_API_KEY_VAR: &str = "OPENAI_API_KEY";
 // The file that contains the OpenAI API key. Use this or the environment variable above.
 const OPENAI_API_KEY_FILE: &str = "open_ai_auth_key.txt";
 
 // The prompt to display initially or when the user enters an empty line.
-const PROMPT_HELP: &str = "Enter text. Enter `c` to clear the chat history and `q` to exit.";
+const PROMPT_HELP: &str = "Enter text. Enter `r` to resend the current chat, `c` to clear the chat history, and `q` to exit.";
 
-// Obtain the OpenAI API key from the environment variable OPENAI_API_KEY_ENV. If not defined, read it
-// from the file OPENAI_API_KEY_FILE.
+// Obtain the OpenAI API key from the environment variable OPENAI_API_KEY_ENV. If not defined, read
+// it from the file OPENAI_API_KEY_FILE.
 fn auth_token() -> Result<String> {
     match env::var(OPENAI_API_KEY_VAR).context("OPENAI_API_KEY not set") {
         Ok(s) => return Ok(s),
@@ -50,6 +53,18 @@ fn auth_token() -> Result<String> {
                 "couldn't find OpenAI authentication key in environment variable (${}) or file",
                 OPENAI_API_KEY_VAR
             )),
+    }
+}
+
+// Print the API's response or the error that occurred.
+fn print_response(res: Result<(String, u32)>) {
+    match res {
+        Ok((text, tokens)) => println!(
+            "GPT [{} tokens used for this context and prompt]: {}",
+            tokens.separate_with_commas(),
+            &text
+        ),
+        Err(e) => println!("  [Error: {}]", e),
     }
 }
 
@@ -76,6 +91,10 @@ fn main() -> Result<()> {
                 println!("  [Exiting]");
                 break;
             }
+            "r" => {
+                println!("  [Resending chat to {}...]", client::MODEL);
+                print_response(chat_bot.send());
+            }
             "c" => {
                 println!("  [Clearing chat history]");
                 chat_bot.clear();
@@ -85,17 +104,12 @@ fn main() -> Result<()> {
                 println!("> {}", PROMPT_HELP);
                 continue;
             }
-            _ => {}
+            _ => {
+                // Send the message to the API and print the response.
+                println!("  [Sending chat to {}...]", client::MODEL);
+                print_response(chat_bot.chat(input_line));
+            }
         }
-
-        // Send the message to the API and print the response.
-        println!("  [Sending chat to {}...]", client::MODEL);
-        let (text, tokens) = chat_bot.chat(input_line)?;
-        println!(
-            "GPT [{} tokens used for this context and prompt]: {}",
-            tokens.separate_with_commas(),
-            &text
-        );
     }
     Ok(())
 }

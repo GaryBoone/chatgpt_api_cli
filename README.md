@@ -63,6 +63,7 @@ This demo:
 
 - The complete chat history is sent to the API for context and the API's response is printed.
 - Enter `c` to clear the chat history and `q` to exit.
+- Errors communicating with the API will be shown. Enter `r` to resend the prior prompt and chat history to try again.
 
 ### Example
 
